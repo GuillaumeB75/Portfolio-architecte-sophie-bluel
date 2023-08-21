@@ -1,5 +1,6 @@
 // -----------OUVERTURE DE LA MODALE --------
-const openModal = function () {
+const openModal = function (event) {
+  if (event) event.preventDefault();
     document.querySelector(".modale").style.display = "block";
     afficheWorksMini();
   };
@@ -7,7 +8,8 @@ const openModal = function () {
   const stopPropagation = function (event) {
     event.stopPropagation();
   };
-  const closeModal = function () {
+  const closeModal = function (event) {
+    if (event) event.preventDefault();
     document.querySelector(".modale").style.display = "none";
   };
   const btnClose = document.querySelectorAll(".btn-close");
@@ -19,7 +21,9 @@ const openModal = function () {
   document
     .querySelector(".js-modal-stop")
     .addEventListener("click", stopPropagation);
-  document.querySelector(".modale").addEventListener("click", closeModal);
+    document.querySelector(".modale").addEventListener("click", (event) => {
+      closeModal(event);
+    });
   
   // -------- APPARITION DES PROJETS DE LA MODALE --------
   function afficheWorksMini() {
@@ -72,9 +76,12 @@ const openModal = function () {
     const confirmDelete = confirm(
       "Êtes-vous sûr de bien vouloir supprimer ce projet ?"
     );
+
+    let response;
+
     if (confirmDelete) {
-      event.preventDefault();
-      const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      event.preventDefault(); // Empêche la propagation et l'action par défaut de l'événement
+      response = await fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem("token")}`,

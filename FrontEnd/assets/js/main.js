@@ -4,10 +4,17 @@ let listeTravaux;
 
 //Appel de l'API works
 async function works() {
-  const response = await fetch("http://localhost:5678/api/works");
-  listeTravaux = await response.json();
-  console.log(listeTravaux);
-  afficheWorks(listeTravaux);
+  try {
+    const response = await fetch("http://localhost:5678/api/works");
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    listeTravaux = await response.json();
+    console.log(listeTravaux);
+    afficheWorks(listeTravaux);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des travaux:", error);
+  }
 }
 
 //Affichage des projets dans la gallery
@@ -38,7 +45,6 @@ function afficheWorks(projets) {
     figureElement.appendChild(titleElement);
   }
 }
-
 //Appel de la fonction works pour récupérer les projets et les afficher dans la gallerie
 works();
 

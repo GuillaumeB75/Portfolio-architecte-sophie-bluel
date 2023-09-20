@@ -58,21 +58,26 @@ if (ajoutImage.size > 4 * 1024 * 1024) {
   return;
 }
 
-  const formData = new FormData(form);
-  console.log(formData);
+const formData = new FormData(form);
+console.log(formData);
 
-  const response = await fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-    },
-    body: formData,
-  });
-  if (response.status === 201) {
-    closeModal();
-    works();
-  }
+const response = await fetch("http://localhost:5678/api/works", {
+  method: "POST",
+  headers: {
+    Accept: "application/json",
+    Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+  },
+  body: formData,
+});
+const data = await response.json();
+if (response.status === 201) {
+  listeTravaux.push(data);
+  afficheWorksMini();  // Mettez à jour la liste de travaux dans la modale
+
+  // Réinitialisez le formulaire pour un nouvel ajout
+  form.reset();
+  document.querySelector(".div-img").style.backgroundImage = "";
+}
 });
 
 

@@ -2,10 +2,19 @@ let listeCategories;
 
 //Appel de l'API catégories
 async function categories() {
-  const response = await fetch("http://localhost:5678/api/categories");
-  listeCategories = await response.json();
-  console.log(listeCategories);
-  categoriesModale();
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    listeCategories = await response.json();
+    console.log(listeCategories);
+    categoriesModale();
+    // ...
+  } catch (error) {
+    console.error("Erreur lors de la récupération des catégories:", error);
+  }
+
 
   //parcours des catégories
   for (let index = 0; index < listeCategories.length; index++) {
@@ -31,6 +40,5 @@ async function categories() {
     });
   }
 }
-
 //appel de la fonction categories pour récupérer les catégories et afficher
 categories();

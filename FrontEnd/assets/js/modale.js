@@ -1,30 +1,37 @@
 // -----------OUVERTURE DE LA MODALE --------
-const openModal = function (event) {
-  if (event) event.preventDefault();
-    document.querySelector(".modale").style.display = "block";
-    afficheWorksMini();
-  };
-  //Permet la propagation de l'evenement vers les parents
-  const stopPropagation = function (event) {
-    event.stopPropagation();
-  };
-  const closeModal = function (event) {
-    if (event) event.preventDefault();
-    document.querySelector(".modale").style.display = "none";
-  };
-  const btnClose = document.querySelectorAll(".btn-close");
-  btnClose.forEach(function (element) {
-    element.addEventListener("click", closeModal);
-  });
-  
-  document.querySelector(".btn-modifier2").addEventListener("click", openModal);
-  document
-    .querySelector(".js-modal-stop")
-    .addEventListener("click", stopPropagation);
-    document.querySelector(".modale").addEventListener("click", (event) => {
-      closeModal(event);
-    });
-  
+const openModal = function () {
+  document.querySelector(".modale").style.display = "block";
+  afficheWorksMini();
+};
+const modalElement = document.querySelector(".modale");
+
+// Fonction pour fermer la modale
+const closeModal = function () {
+  modalElement.style.display = "none";
+};
+
+// Fonction pour empêcher la propagation d'un événement
+const stopPropagation = function (e) {
+  e.stopPropagation();
+};
+
+// Ajout d'un écouteur d'événement au bouton .btn-close
+const btnClose = document.querySelectorAll(".btn-close");
+btnClose.forEach(function (element) {
+  element.addEventListener("click", closeModal);
+});
+
+document.querySelector(".btn-modifier2").addEventListener("click", openModal);
+document
+  .querySelector(".js-modal-stop")
+  .addEventListener("click", stopPropagation);
+
+// Ajout d'un écouteur d'événement à .modale pour fermer la modale
+modalElement.addEventListener("click", function (e) {
+  if (e.target === modalElement) {
+    closeModal();
+  }
+});
   // -------- APPARITION DES PROJETS DE LA MODALE --------
   function afficheWorksMini() {
     const editGallery = document.querySelector("#edit-gallery");
@@ -72,16 +79,14 @@ const openModal = function (event) {
   }
   
   async function deletework(id, event) {
+    event.preventDefault();
+    event.stopPropagation();
     console.log(id);
     const confirmDelete = confirm(
       "Êtes-vous sûr de bien vouloir supprimer ce projet ?"
     );
-
-    let response;
-
     if (confirmDelete) {
-      event.preventDefault(); // Empêche la propagation et l'action par défaut de l'événement
-      response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      const response = await fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem("token")}`,
@@ -89,11 +94,10 @@ const openModal = function (event) {
       });
       const deleteResponse = await response.json();
       console.log(deleteResponse);
-    }
-  
-    if (response.status === 200) {
-      works();
-      afficheWorksMini();
+    
+      if (response.status === 200) {
+        listeTravaux = listeTravaux.filter((work) => work.id !== id);
+        afficheWorksMini();
+      }
     }
   }
-  

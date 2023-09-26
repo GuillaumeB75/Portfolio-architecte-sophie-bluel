@@ -45,6 +45,7 @@ modalElement.addEventListener("click", function (e) {
       editGallery.appendChild(divElement);
       divElement.classList.add("premier-work");
       divElement.style.backgroundImage = `url(${projet.imageUrl})`;
+      divElement.id = `idModale${projet.id})`;
   
       const divButtonElement = document.createElement("div");
       divElement.appendChild(divButtonElement);

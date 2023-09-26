@@ -73,6 +73,24 @@ const data = await response.json();
 if (response.status === 201) {
   listeTravaux.push(data);
   afficheWorksMini();  // Mettez à jour la liste de travaux dans la modale
+  
+     const divGallery = document.querySelector(".gallery");
+     //Création de l'élément figure
+     const figureElement = document.createElement("figure");
+     //Ajout de l'élément figure à la div de la galerie
+     divGallery.appendChild(figureElement);
+ 
+     //Création de l'élément img pour l'image du projet
+     const imageUrlElement = document.createElement("img");
+     imageUrlElement.src = data.imageUrl;
+     //Ajout de l'élément img à l'élément figure
+     figureElement.appendChild(imageUrlElement);
+ 
+     //Création de l'élément figcaption pour le titre du projet
+     const titleElement = document.createElement("figcaption");
+     titleElement.innerText = data.title;
+     //Ajout de l'élément figcaption à l'élément figure
+     figureElement.appendChild(titleElement);
 
   // Réinitialisez le formulaire pour un nouvel ajout
   form.reset();

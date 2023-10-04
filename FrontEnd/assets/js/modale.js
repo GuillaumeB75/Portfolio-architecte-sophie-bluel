@@ -93,12 +93,12 @@ modalElement.addEventListener("click", function (e) {
           Authorization: `Bearer ${window.localStorage.getItem("token")}`,
         },
       });
-      const deleteResponse = await response.json();
-      console.log(deleteResponse);
+     
     
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 204) {
         listeTravaux = listeTravaux.filter((work) => work.id !== id);
         afficheWorksMini();
-      }
+        works();
+    }
     }
   }

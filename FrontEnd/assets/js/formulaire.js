@@ -89,7 +89,7 @@ if (response.status === 201) {
   form.reset();
   document.querySelector(".div-img").style.backgroundImage = "";
 
-  alert("L'image a bien été ajoutée.");
+  alert("Connexion au serveur réussie, l'image va êre rajoutée.");
   return;
 }
 });

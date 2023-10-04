@@ -76,6 +76,7 @@ if (response.status === 201) {
   
      const divGallery = document.querySelector(".gallery");
      const figureElement = document.createElement("figure");
+     figureElement.id = `galleryItem${data.id}`;
      divGallery.appendChild(figureElement);
      const imageUrlElement = document.createElement("img");
      imageUrlElement.src = data.imageUrl;

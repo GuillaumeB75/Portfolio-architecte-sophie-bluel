@@ -42,10 +42,11 @@ modalElement.addEventListener("click", function (e) {
       const projet = listeTravaux[i];
   
       const divElement = document.createElement("div");
+      divElement.id = `modalItem${projet.id}`;  // Ajoutez cette ligne
       editGallery.appendChild(divElement);
       divElement.classList.add("premier-work");
       divElement.style.backgroundImage = `url(${projet.imageUrl})`;
-      divElement.id = `idModale${projet.id})`;
+      
   
       const divButtonElement = document.createElement("div");
       divElement.appendChild(divButtonElement);
@@ -96,9 +97,18 @@ modalElement.addEventListener("click", function (e) {
      
     
       if (response.status === 200 || response.status === 204) {
+        const galleryItem = document.querySelector(`#galleryItem${id}`);
+        if (galleryItem) {
+            galleryItem.remove();
+        }
+        
+        // Supprimez l'élément de la modale
+        const modalItem = document.querySelector(`#modalItem${id}`);
+        if (modalItem) {
+            modalItem.remove();
+        }
         listeTravaux = listeTravaux.filter((work) => work.id !== id);
-        afficheWorksMini();
-        works();
+       
     }
     }
   }

@@ -29,6 +29,7 @@ function afficheWorks(projets) {
 
     //Création de l'élément figure
     const figureElement = document.createElement("figure");
+    figureElement.id = `galleryItem${projet.id}`;  // Ajoutez cette ligne
     //Ajout de l'élément figure à la div de la galerie
     divGallery.appendChild(figureElement);
 
